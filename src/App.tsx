@@ -20,6 +20,7 @@ function App() {
       isFinished: true,
     }
   ]);
+  const [filteredTodos, setFilteredTodos] = useState<Todos[]>([...todos]);
   const [taskInput, setTaskInput] = useState<string>("");
   const [searchInput, setSearchInput] = useState<string>("");
 
@@ -33,26 +34,15 @@ function App() {
   }
 
   const handleCategory = (e: any) => {
-    console.log(e.target.value)
-    // if (e.target.value === "finished") {
-      let filteredTodos = todos.filter(todo => {
-        if (e.target.value === "finished") {
-          return todo.isFinished === true;
-        } else if (e.target.value === "unfinish") {
-          return todo.isFinished === false;
-        } else {
-          return todo;
-        }
-      })
-      console.log(filteredTodos)
-      setTodos(filteredTodos);
-    // }else{
-    //   let unFinishTodos = todos.filter(todo => {
-    //     return todo.isFinished === false;
-    //   })
-    //   console.log(unFinishTodos)
-    //   // setTodos(unFinishTodos);
-    // }
+    setFilteredTodos(todos.filter(todo => {
+      if (e.target.value === "finished") {
+        return todo.isFinished === true;
+      } else if (e.target.value === "unfinish") {
+        return todo.isFinished === false;
+      } else {
+        return todo;
+      }
+    }))
   }
 
   const handleSubmit = (e: {
@@ -110,7 +100,7 @@ function App() {
 
       <ul>
         {
-          todos.map(todo => {
+          filteredTodos.map(todo => {
             return (
               <li key={todo.id}>
                 {todo.task_name}
